@@ -39,7 +39,7 @@ export default function KontakPage() {
                   <div className="bg-amber-100 p-3 rounded-2xl text-amber-800">📍</div>
                   <div>
                     <p className="font-bold text-amber-950">Alamat Toko</p>
-                    <p className="text-amber-800/60 text-sm">Jl. Yogyakarta - Solo, Roti No. 123, Jakarta Selatan</p>
+                    <p className="text-amber-800/60 text-sm">Jl. Jl. Solo - Yogyakarta, Dea Bakery No. 10, Yogyakarta</p>
                   </div>
                 </div>
 

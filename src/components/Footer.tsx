@@ -29,8 +29,8 @@ export default function Footer() {
           <div>
             <h3 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Lokasi Kami</h3>
             <p className="text-sm text-amber-200/60">
-              Jl. Yogyakarta - Solo Roti No. 123<br />
-              Yogyakarta Selatan, Indonesia
+              Jl. Solo - Yogyakarta, Dea Bakery No. 10<br />
+              Yogyakarta, Indonesia
             </p>
           </div>
 
