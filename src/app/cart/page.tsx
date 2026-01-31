@@ -7,12 +7,14 @@ export default function CartPage() {
   const { cart, removeFromCart, clearCart, totalPrice } = useCart();
 
   const handleCheckout = () => {
-    const phone = "6281327632261"; // Ganti dengan nomor WhatsApp Toko Dea
+    const phone = "6281327632261"; 
     const message = cart
       .map((item: any) => `- ${item.name} (${item.quantity}x)`)
       .join("\n");
     
-    const url = `https://wa.me/${phone}?text=Halo Dea's Bakery, saya ingin memesan:\n${message}\n\nTotal: Rp ${totalPrice.toLocaleString()}`;
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(
+      `Halo Dea's Bakery, saya ingin memesan:\n\n${message}\n\nTotal: Rp ${totalPrice.toLocaleString()}`
+    )}`;
     window.open(url, "_blank");
   };
 
@@ -39,17 +41,17 @@ export default function CartPage() {
           <p className="text-amber-600 text-sm">Dea's Bakery - Freshly Baked</p>
         </div>
         
-        {/* TOMBOL HAPUS SEMUA */}
+        {/* TOMBOL HAPUS SEMUA - Menggunakan Hex Merah agar tidak hilang saat deploy */}
         <button 
           onClick={clearCart}
-          className="text-red-400 text-xs uppercase tracking-widest font-bold hover:text-red-600 transition-colors flex items-center gap-1"
+          className="text-[#dc2626] text-xs uppercase tracking-widest font-bold hover:text-red-700 transition-colors flex items-center gap-1"
         >
           <span>Hapus Semua</span>
         </button>
       </div>
 
       <div className="space-y-4">
-        <AnimatePresence>
+        <AnimatePresence mode="popLayout">
           {cart.map((item: any) => (
             <motion.div 
               key={item.id}
@@ -71,10 +73,10 @@ export default function CartPage() {
                 </div>
               </div>
               
-              {/* TOMBOL HAPUS PER ITEM (TONG SAMPAH) */}
+              {/* TOMBOL HAPUS ITEM (Selalu Terlihat di Mobile & Desktop) */}
               <button 
                 onClick={() => removeFromCart(item.id)}
-                className="p-3 bg-red-50 text-red-400 rounded-2xl opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white"
+                className="p-3 bg-red-50 text-[#dc2626] rounded-2xl hover:bg-[#dc2626] hover:text-white transition-all"
                 title="Hapus"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
@@ -86,20 +88,20 @@ export default function CartPage() {
         </AnimatePresence>
       </div>
 
-      {/* FOOTER KERANJANG */}
-      <div className="mt-10 p-6 bg-amber-950 rounded-[2rem] text-white shadow-xl shadow-amber-900/20">
+      {/* FOOTER KERANJANG - SEKARANG WARNA HIJAU WHATSAPP */}
+      <div className="mt-10 p-6 bg-[#075e54] rounded-[2rem] text-white shadow-xl shadow-green-900/20">
         <div className="flex justify-between items-center mb-6">
-          <span className="text-amber-200/70 font-medium">Total Pembayaran</span>
+          <span className="text-green-100 font-medium text-lg">Total Pesanan</span>
           <span className="text-2xl font-bold">Rp {totalPrice.toLocaleString()}</span>
         </div>
         
         <motion.button 
           whileTap={{ scale: 0.96 }}
           onClick={handleCheckout}
-          className="w-full bg-white text-amber-950 py-4 rounded-xl font-bold hover:bg-amber-50 transition-all flex items-center justify-center gap-3"
+          className="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold hover:bg-[#128c7e] transition-all flex items-center justify-center gap-3 shadow-lg"
         >
-          <span className="text-lg">Kirim Pesanan ke WhatsApp</span>
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <span className="text-lg text-white">Pesan via WhatsApp</span>
+          <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.236 3.484 8.417 0 6.556-5.338 11.892-11.893 11.892-1.997 0-3.951-.5-5.688-1.448l-6.309 1.652zm5.178-3.861c1.559.926 3.414 1.415 5.307 1.416 5.735 0 10.402-4.667 10.402-10.402s-4.667-10.402-10.402-10.402c-5.735 0-10.402 4.667-10.402 10.402 0 2.102.631 4.145 1.82 5.904l-1.066 3.89 3.941-1.034z" />
           </svg>
         </motion.button>
