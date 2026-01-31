@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ProductCard from "@/src/components/ProductCard";
+import ProductCard from "../../components/ProductCard";
 import { Playfair_Display } from "next/font/google";
 import { useState } from "react";
 
