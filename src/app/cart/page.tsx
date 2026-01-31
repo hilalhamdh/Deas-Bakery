@@ -4,7 +4,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function CartPage() {
-  const { cart, removeFromCart, addToCart, clearCart, totalPrice } = useCart();
+  // Ambil decreaseQuantity dari context
+  const { cart, removeFromCart, addToCart, decreaseQuantity, clearCart, totalPrice } = useCart();
 
   const handleCheckout = () => {
     const phone = "6281327632261"; 
@@ -35,7 +36,7 @@ export default function CartPage() {
 
   return (
     <div className="p-6 pt-28 max-w-2xl mx-auto min-h-screen bg-[#fdfcfb]">
-      {/* HEADER KERANJANG */}
+      {/* HEADER */}
       <div className="flex justify-between items-end mb-4 border-b border-amber-100 pb-4">
         <div>
           <h1 className="text-3xl font-serif text-amber-950">Keranjang</h1>
@@ -49,17 +50,13 @@ export default function CartPage() {
         </button>
       </div>
 
-      {/* TOMBOL TAMBAH MENU LAIN (Baru Ditambahkan) */}
       <div className="mb-6">
         <Link href="/menu">
           <motion.div 
             whileHover={{ x: 5 }}
-            className="inline-flex items-center gap-2 text-amber-800 font-bold text-sm bg-amber-100/50 px-4 py-2 rounded-full border border-amber-200 hover:bg-amber-100 transition-all"
+            className="inline-flex items-center gap-2 text-amber-800 font-bold text-sm bg-amber-100/50 px-4 py-2 rounded-full border border-amber-200 hover:bg-amber-100 transition-all cursor-pointer"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            <span>Tambah Menu Lain</span>
+            <span>+ Tambah Menu Lain</span>
           </motion.div>
         </Link>
       </div>
@@ -83,30 +80,37 @@ export default function CartPage() {
                 <div>
                   <p className="font-bold text-amber-950 leading-tight">{item.name}</p>
                   <p className="text-xs text-amber-500 font-bold uppercase tracking-tighter">
-                    Rp {item.price.toLocaleString()} / pcs
+                    Rp {(item.price * item.quantity).toLocaleString()}
                   </p>
                 </div>
               </div>
 
-              {/* KONTROL QUANTITY */}
+              {/* KONTROL JUMLAH (GANTI X JADI KURANG) */}
               <div className="flex items-center gap-3 bg-amber-50/50 p-1 rounded-xl border border-amber-100">
+                {/* Tombol Kurang (-) */}
                 <button 
-                  onClick={() => addToCart(item)}
-                  className="w-8 h-8 flex items-center justify-center bg-amber-900 rounded-lg text-white shadow-md hover:bg-amber-800 transition-colors"
+                  onClick={() => {
+                    if (item.quantity > 1) {
+                      decreaseQuantity(item.id);
+                    } else {
+                      removeFromCart(item.id);
+                    }
+                  }}
+                  className="w-8 h-8 flex items-center justify-center bg-white rounded-lg text-amber-900 border border-amber-200 shadow-sm hover:bg-red-50 hover:text-red-600 transition-colors font-bold"
                 >
-                  +
+                  -
                 </button>
+                
                 <span className="font-bold text-amber-950 min-w-[20px] text-center">
                   {item.quantity}
                 </span>
+
+                {/* Tombol Tambah (+) */}
                 <button 
-                  onClick={() => removeFromCart(item.id)}
-                  className="w-8 h-8 flex items-center justify-center bg-white rounded-lg text-[#dc2626] border border-red-100 shadow-sm hover:bg-red-50 transition-colors"
-                  title="Hapus"
+                  onClick={() => addToCart(item)}
+                  className="w-8 h-8 flex items-center justify-center bg-amber-900 rounded-lg text-white shadow-md hover:bg-amber-800 transition-colors font-bold"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  +
                 </button>
               </div>
             </motion.div>
@@ -114,10 +118,10 @@ export default function CartPage() {
         </AnimatePresence>
       </div>
 
-      {/* FOOTER TOTAL & WA */}
-      <div className="p-6 bg-[#075e54] rounded-[2rem] text-white shadow-xl">
-        <div className="flex justify-between items-center mb-6 border-b border-green-800/50 pb-4">
-          <span className="text-green-100 font-medium">Ringkasan Pesanan</span>
+      {/* FOOTER */}
+      <div className="p-6 bg-[#075e54] rounded-[2rem] text-white shadow-xl shadow-green-900/20">
+        <div className="flex justify-between items-center mb-6">
+          <span className="text-green-100 font-medium">Total Pesanan</span>
           <span className="text-2xl font-bold font-serif">Rp {totalPrice.toLocaleString()}</span>
         </div>
         

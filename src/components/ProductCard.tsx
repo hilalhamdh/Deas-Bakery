@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useCart } from "../context/CartContext";
 
 interface ProductProps {
-  id: string | number; // Tambahkan ID agar keranjang tidak tertukar
+  id: string | number;
   name: string;
   price: string;
   image: string;
@@ -14,18 +14,19 @@ interface ProductProps {
 export default function ProductCard({ id, name, price, image }: ProductProps) {
   const { addToCart } = useCart();
 
-  // Fungsi untuk membersihkan harga string menjadi angka (misal "Rp 15.000" jadi 15000)
+  // Fungsi untuk membersihkan harga string menjadi angka
   const numericPrice = parseInt(price.replace(/[^0-9]/g, "")) || 0;
 
-  const handleAddToCart = () => {
-    // Kita susun objek product di sini
+  // MODIFIKASI: Tambahkan parameter 'e' untuk menangkap koordinat klik
+  const handleAddToCart = (e: React.MouseEvent) => {
     const product = {
       id,
       name,
       price: numericPrice,
       image
     };
-    addToCart(product);
+    // Kirim product DAN event klik 'e' agar bisa "terbang"
+    addToCart(product, e);
   };
 
   return (
@@ -60,9 +61,10 @@ export default function ProductCard({ id, name, price, image }: ProductProps) {
           {price}
         </p>
 
-        {/* 3. TOMBOL PESAN (Sudah terhubung ke Cart) */}
+        {/* 3. TOMBOL PESAN */}
         <motion.button
-          onClick={handleAddToCart}
+          // MODIFIKASI: Kirim event 'e' ke fungsi handle
+          onClick={(e) => handleAddToCart(e)}
           whileTap={{ scale: 0.95 }}
           className="w-full bg-amber-900 text-white py-3.5 rounded-2xl text-sm font-bold shadow-lg shadow-amber-900/20 hover:bg-amber-800 transition-all flex items-center justify-center gap-2"
         >
