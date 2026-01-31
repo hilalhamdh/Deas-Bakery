@@ -70,6 +70,7 @@ export default function MenuPage() {
           {filteredProducts.map((item) => (
             <ProductCard 
               key={item.id}
+              id={item.id}
               name={item.name}
               price={item.price}
               image={item.image}
