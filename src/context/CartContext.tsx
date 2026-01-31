@@ -6,6 +6,7 @@ const CartContext = createContext<any>(null);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<any[]>([]);
 
+  // 1. Fungsi Tambah ke Keranjang
   const addToCart = (product: any) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
@@ -18,10 +19,33 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  // 2. Fungsi Hapus Satu Item (berdasarkan ID)
+  const removeFromCart = (id: any) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  // 3. Fungsi Hapus Semua Isi Keranjang
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  // 4. Hitung Total Jumlah Item (Badge)
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
+  // 5. Hitung Total Harga yang Harus Dibayar
+  const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, cartCount }}>
+    <CartContext.Provider 
+      value={{ 
+        cart, 
+        addToCart, 
+        removeFromCart, 
+        clearCart, 
+        cartCount, 
+        totalPrice 
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

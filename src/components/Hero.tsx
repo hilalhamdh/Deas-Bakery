@@ -1,8 +1,9 @@
-"use client"; // Wajib ditambahkan karena animasi butuh interaksi di browser
+"use client"; 
 
 import { motion } from "framer-motion";
 import Image from 'next/image';
 import { Playfair_Display } from 'next/font/google';
+import Link from 'next/link'; // <--- 1. IMPORT LINK INI
 
 const playfair = Playfair_Display({ subsets: ['latin'] });
 
@@ -13,9 +14,9 @@ export default function Hero() {
         
         {/* SISI KIRI DENGAN ANIMASI */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }} // Mulai dari transparan dan agak ke bawah
-          animate={{ opacity: 1, y: 0 }}   // Berakhir di posisi asli
-          transition={{ duration: 0.8, ease: "easeOut" }} // Durasi 0.8 detik
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <span className="inline-block px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-widest mb-6">
             EST. 2027 • Dea Rifdah
@@ -27,20 +28,23 @@ export default function Hero() {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1 }} // Muncul telat sedikit (delay)
+            transition={{ delay: 0.5, duration: 1 }}
             className="text-amber-900/70 text-lg mb-10 max-w-md leading-relaxed"
           >
             Dibuat secara tradisional dengan ragi alami dan bahan organik untuk tekstur yang sempurna di setiap gigitan.
           </motion.p>
           
           <div className="flex flex-wrap gap-4">
-            <button className="bg-amber-900 text-white px-10 py-4 rounded-full font-bold hover:scale-105 transition-transform">
-              Mulai Pesan
-            </button>
+            {/* 2. BUNGKUS TOMBOL DENGAN LINK KE ID PRODUK */}
+            <Link href="#produk-kami">
+              <button className="bg-amber-900 text-white px-10 py-4 rounded-full font-bold hover:scale-105 transition-transform">
+                Mulai Pesan
+              </button>
+            </Link>
           </div>
         </motion.div>
 
-        {/* SISI KANAN: GAMBAR MUNCUL PERLAHAN */}
+        {/* SISI KANAN */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
